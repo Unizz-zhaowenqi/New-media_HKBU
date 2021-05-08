@@ -1,0 +1,41 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import re 
+
+#Replace the code that cannot be displayed with the cracked code
+#The encrypted information is changing every day, so every crawling needs to be re decrypted
+def decode_font(data):
+    data = data.replace(b'\xef\x9d\x9e', b'0')
+    data = data.replace(b'\xee\xb4\x94', b'1')
+    data = data.replace(b'\xee\xb8\xb8', b'2')
+    data = data.replace(b'\xef\x9c\x9c', b'3')
+    data = data.replace(b'\xee\xb6\xbb', b'4')
+    data = data.replace(b'\xee\xa8\x86', b'5')
+    data = data.replace(b'\xee\xa1\xb9', b'6')
+    data = data.replace(b'\xee\xb4\xab', b'7')
+    data = data.replace(b'\xee\xb4\xab', b'8')
+    data = data.replace(b'\xee\xa1\xa9', b'9')
+    data = data.decode('utf-8')
+    return data
+
+headers={
+    'Connection':'close',
+    "User-Agent": 'Mozilla/5.0'
+}
+sess = requests.Session()
+detail_urls=[]
+for j in range(201,255):
+    
+    url=f'https://www.shixiseng.com/interns?page={j}&type=intern&keyword=%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%96%B0%E5%AA%92%E4%BD%93&area=&months=&days=&degree=&official=&enterprise=&salary=-0&publishTime=&sortType=&city=%E5%85%A8%E5%9B%BD&internExtend='
+    page_text = sess.get(url=url,headers=headers).text
+    soup = BeautifulSoup(page_text,'lxml') 
+    for i in range(len(soup.findAll('div',class_='intern-wrap intern-item'))):
+        detail_url = soup.select('.f-l.intern-detail__job a')[i]['href']
+        title = soup.select('.f-r.intern-detail__company>p>a')[i]['title']
+        #Get links to details
+#         print(title,detail_url)
+        detail_urls.append(detail_url)
+print(len(detail_urls))
+
+

@@ -1,0 +1,10 @@
+#Crack the encrypted numbers one by one
+print(''.encode('utf-8'))
+# 150-200/天
+# '\xef\xa3\x8c\xee\xbd\xac\xee\x96\xb6-\xee\xbe\xaf\xee\x96\xb6\xee\x96\xb6/\xe5\xa4\xa9'
+# 1 is represented by  
+# 5 is represented by  
+# 0 is represented by  
+ 
+<a data-v-98c756d6="" href="https://www.shixiseng.com/intern/inn_5azgtucs9yyy?pcm=pc_SearchList" title="阿迪达斯深圳&amp;#xf347号仓实习&amp;#xe5d3" target="_blank" class="title ellipsis font">阿迪达斯深圳号仓实习</a>
+

@@ -1,0 +1,51 @@
+#Crawling recruitment website data
+
+job_names=[]
+comps=[]
+salaries=[]
+locates=[]
+degrees=[]
+weekdays=[]
+deadlines=[]
+job_details=[]
+for url in detail_urls:
+    page_text = sess.get(url=url,headers=headers).text
+    soupa = BeautifulSoup(page_text,'lxml') 
+    #1.find div class=new_job_name,and find岗位名称
+    job_name = soup.select('.new_job_name')[0].text.strip()
+    #2.find公司名称
+    comp = soup.select('div.com_intro > a.com-name')[0].text.strip()
+    #3.find工资
+    salary = decode_font(soup.select('.job_msg>span')[0].text.encode('utf-8'))
+    #4.find地区
+    locate = soup.select('.job_msg>span')[1]['title']
+    #5.find学位要求
+    degree = soup.select('.job_msg>span')[2].text
+    #6.find每星期上班天数
+    weekday = decode_font(soup.select('.job_msg>span')[3].text.encode('utf-8'))
+    #7.find岗位描述
+    job_detail = soup.select('.job_detail')[0].text.strip()
+    bytes(job_detail, encoding = "utf8")
+    #8.find截止日期
+    deadline = decode_font(soup.select('.cutom_font')[-1].text.encode('utf-8'))
+    job_names.append(job_name)
+    comps.append(comp)
+    salaries.append(salary)
+    locates.append(locate)
+    degrees.append(degree)
+    weekdays.append(weekday)
+    job_details.append(job_detail)
+    deadlines.append(deadline)
+    a =({ 
+        '岗位名称':job_names,
+        '公司名称':comps,
+        '工资':salaries,
+        '工作地点':locates,
+        '学位要求':degrees,
+        '工作日':weekdays,
+        '截止日期':deadlines, 
+        '岗位描述':job_details})
+    df = pd.DataFrame.from_dict(a, orient='index')
+    df.to_csv(r"./shixiseng_all4.csv",sep=',')
+
+

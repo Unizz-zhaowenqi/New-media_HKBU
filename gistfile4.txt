@@ -1,0 +1,40 @@
+#Word frequency analysis
+
+import pandas as  pd
+import re
+import collections
+import jieba
+
+from pyecharts.charts import WordCloud
+from pyecharts import options as opts
+
+# 1.pre-treated
+
+data_cy = data.copy()
+A = data_cy['职位信息'].str.strip()
+data_cy['职位信息'] = A
+string_data = ''
+for i in data_cy['职位信息']:
+    string_data += str(i)
+
+# 2.Text preprocessing
+pattern = re.compile(u'\t|\n| |；|\.|。|：|：\.|-|:|\d|;|、|，|\)|\(|\?|"')
+string_data = re.sub(pattern, '', string_data)
+
+# 3.Text segmentation
+seg_list_exact = jieba.cut(string_data, cut_all=False)
+
+# 4.Filter
+object_list = []
+with open('./remove_words.txt', 'r', encoding="utf-8") as fp:
+    remove_words = fp.read().split()
+
+for word in seg_list_exact:
+    if word not in remove_words and word != ' ' and word != '\xa0':
+        object_list.append(word)  
+
+# 5.Word frequency count
+word_counts = collections.Counter(object_list)  
+word_counts_top200 = word_counts.most_common(200)
+
+word_counts_top200
